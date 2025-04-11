@@ -1,4 +1,3 @@
-
 export async function callGeminiApi(apiKey: string, prompt: string, model: string = "gemini-2.0-flash") {
   try {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
@@ -9,6 +8,7 @@ export async function callGeminiApi(apiKey: string, prompt: string, model: strin
       body: JSON.stringify({
         contents: [
           {
+            role: "user",
             parts: [
               {
                 text: prompt
@@ -18,8 +18,7 @@ export async function callGeminiApi(apiKey: string, prompt: string, model: strin
         ],
         generationConfig: {
           temperature: 0.9,
-          topP: 0.95,
-          topK: 40,
+          responseMimeType: "text/plain",
           maxOutputTokens: 8192,
         }
       })
@@ -31,7 +30,7 @@ export async function callGeminiApi(apiKey: string, prompt: string, model: strin
     }
 
     const data = await response.json();
-    return data.candidates[0].content.parts[0].text;
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated";
   } catch (error) {
     console.error("Error calling Gemini API:", error);
     throw error;
