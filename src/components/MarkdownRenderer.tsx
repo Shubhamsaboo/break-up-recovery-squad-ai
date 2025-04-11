@@ -6,6 +6,14 @@ interface MarkdownRendererProps {
   content: string;
 }
 
+// Define the CodeProps type to include the inline property
+interface CodeProps {
+  node: any;
+  inline?: boolean;
+  className?: string;
+  children?: React.ReactNode;
+}
+
 const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
   return (
     <ReactMarkdown 
@@ -30,7 +38,7 @@ const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
         em: ({node, ...props}) => (
           <em className="italic text-foreground/90" {...props} />
         ),
-        code: ({node, inline, ...props}) => (
+        code: ({node, inline, ...props}: CodeProps) => (
           inline ? 
             <code className="px-1 py-0.5 bg-muted rounded text-foreground/90 text-sm" {...props} /> : 
             <code className="p-3 bg-muted block rounded-md text-foreground/90 text-sm my-4 overflow-x-auto" {...props} />
