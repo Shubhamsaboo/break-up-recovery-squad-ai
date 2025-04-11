@@ -1,5 +1,5 @@
 
-export async function callGeminiApi(apiKey: string, prompt: string, model: string = "gemini-flash-2.0") {
+export async function callGeminiApi(apiKey: string, prompt: string, model: string = "gemini-2.0-flash") {
   try {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
       method: "POST",
@@ -17,10 +17,10 @@ export async function callGeminiApi(apiKey: string, prompt: string, model: strin
           }
         ],
         generationConfig: {
-          temperature: 0.7,
-          topP: 0.8,
+          temperature: 0.9,
+          topP: 0.95,
           topK: 40,
-          maxOutputTokens: 2048,
+          maxOutputTokens: 8192,
         }
       })
     });
