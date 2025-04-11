@@ -8,7 +8,24 @@ interface MarkdownRendererProps {
 
 const MarkdownRenderer = ({ content }: MarkdownRendererProps) => {
   return (
-    <ReactMarkdown className="prose max-w-none">
+    <ReactMarkdown 
+      className="prose prose-headings:text-primary prose-h1:text-2xl prose-h2:text-xl prose-h3:font-semibold prose-h2:font-bold prose-p:text-base prose-p:leading-relaxed prose-li:text-base prose-li:leading-relaxed prose-strong:font-semibold prose-strong:text-foreground max-w-none"
+      components={{
+        h1: ({node, ...props}) => <h1 className="text-2xl font-bold mb-4 text-primary mt-2" {...props} />,
+        h2: ({node, ...props}) => <h2 className="text-xl font-bold mb-3 text-primary mt-5" {...props} />,
+        h3: ({node, ...props}) => <h3 className="text-lg font-semibold mb-2 mt-4" {...props} />,
+        p: ({node, ...props}) => <p className="mb-4 leading-relaxed" {...props} />,
+        ul: ({node, ...props}) => <ul className="mb-4 ml-6 list-disc" {...props} />,
+        ol: ({node, ...props}) => <ol className="mb-4 ml-6 list-decimal" {...props} />,
+        li: ({node, ...props}) => <li className="mb-1" {...props} />,
+        blockquote: ({node, ...props}) => (
+          <blockquote 
+            className="pl-4 italic border-l-4 border-primary/30 my-4 text-muted-foreground"
+            {...props} 
+          />
+        )
+      }}
+    >
       {content}
     </ReactMarkdown>
   );
