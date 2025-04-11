@@ -13,11 +13,41 @@ interface OpenAIResponse {
 export const callOpenAI = async (
   apiKey: string,
   userInput: string,
-  agentPrompt: AgentPrompt
+  agentPrompt: AgentPrompt,
+  images: File[] = []
 ): Promise<string> => {
   try {
     // Ensure the API key is properly encoded by filtering out non-ASCII characters
     const cleanApiKey = apiKey.replace(/[^\x00-\xFF]/g, "");
+    
+    // Format the message content based on whether images are included
+    const userMessage: any = { role: "user" };
+    
+    if (images.length > 0) {
+      // If we have images, we need to format the content as an array of objects
+      userMessage.content = [
+        { type: "text", text: userInput }
+      ];
+      
+      // Process each image and add it to the content array
+      for (const image of images) {
+        try {
+          const base64Image = await convertImageToBase64(image);
+          userMessage.content.push({
+            type: "image_url",
+            image_url: {
+              url: `data:${image.type};base64,${base64Image}`
+            }
+          });
+        } catch (error) {
+          console.error("Error processing image:", error);
+          toast.error(`Failed to process image: ${image.name}`);
+        }
+      }
+    } else {
+      // If no images, just use the text content directly
+      userMessage.content = userInput;
+    }
     
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -32,10 +62,7 @@ export const callOpenAI = async (
             role: "system",
             content: agentPrompt.content,
           },
-          {
-            role: "user",
-            content: userInput,
-          },
+          userMessage
         ],
         temperature: 0.7,
       }),
@@ -53,6 +80,24 @@ export const callOpenAI = async (
     console.error("OpenAI API Error:", error);
     return "";
   }
+};
+
+// Helper function to convert an image file to base64
+const convertImageToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        // Extract just the base64 part by removing the data URL prefix
+        const base64 = reader.result.split(',')[1];
+        resolve(base64);
+      } else {
+        reject(new Error('Failed to convert image to base64'));
+      }
+    };
+    reader.onerror = error => reject(error);
+  });
 };
 
 export const agentPrompts = {

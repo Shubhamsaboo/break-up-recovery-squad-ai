@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
@@ -45,10 +46,10 @@ const Index = () => {
     
     try {
       const [therapistResponse, closureResponse, routineResponse, honestyResponse] = await Promise.allSettled([
-        callOpenAI(apiKey, feelings, agentPrompts.therapist),
-        callOpenAI(apiKey, feelings, agentPrompts.closure),
-        callOpenAI(apiKey, feelings, agentPrompts.routine),
-        callOpenAI(apiKey, feelings, agentPrompts.honesty)
+        callOpenAI(apiKey, feelings, agentPrompts.therapist, images),
+        callOpenAI(apiKey, feelings, agentPrompts.closure, images),
+        callOpenAI(apiKey, feelings, agentPrompts.routine, images),
+        callOpenAI(apiKey, feelings, agentPrompts.honesty, images)
       ]);
       
       if (therapistResponse.status === 'fulfilled' && therapistResponse.value) {
