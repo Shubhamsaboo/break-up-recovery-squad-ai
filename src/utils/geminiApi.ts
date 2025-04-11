@@ -1,4 +1,5 @@
-export async function callGeminiApi(apiKey: string, prompt: string, model: string = "gemini-2.0-flash") {
+
+export async function callGeminiApi(apiKey: string, prompt: string, model: string = "gemini-2.0-flash-exp") {
   try {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
       method: "POST",
