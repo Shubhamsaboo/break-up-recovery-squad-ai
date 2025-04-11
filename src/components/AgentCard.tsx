@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Heart, MessageSquarePlus, Calendar, AlertCircle } from "lucide-react";
 import { cn } from '@/lib/utils';
+import MarkdownRenderer from './MarkdownRenderer';
 
 interface AgentCardProps {
   type: 'therapist' | 'closure' | 'routine' | 'honesty';
@@ -72,7 +73,7 @@ const AgentCard = ({ type, content, isLoading }: AgentCardProps) => {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="prose prose-sm max-w-none">
+      <CardContent>
         {isLoading ? (
           <div className="flex flex-col space-y-2">
             <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
@@ -80,7 +81,7 @@ const AgentCard = ({ type, content, isLoading }: AgentCardProps) => {
             <div className="h-4 bg-gray-200 rounded animate-pulse w-4/6"></div>
           </div>
         ) : (
-          <div className="markdown-content" dangerouslySetInnerHTML={{ __html: content }} />
+          <MarkdownRenderer content={content} />
         )}
       </CardContent>
     </Card>
