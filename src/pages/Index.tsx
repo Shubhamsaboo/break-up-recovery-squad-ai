@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
@@ -9,6 +8,7 @@ import ApiKeyInput from '@/components/ApiKeyInput';
 import UserInputForm from '@/components/UserInputForm';
 import AgentCard from '@/components/AgentCard';
 import ApiInfoLink from '@/components/ApiInfoLink';
+import { callOpenAI, agentPrompts } from '@/services/openaiApi';
 import {
   Dialog,
   DialogContent,
@@ -29,7 +29,7 @@ const Index = () => {
   const [routineContent, setRoutineContent] = useState('');
   const [honestyContent, setHonestyContent] = useState('');
   
-  const handleSubmit = (feelings: string, images: File[]) => {
+  const handleSubmit = async (feelings: string, images: File[]) => {
     if (!apiKeySubmitted) {
       toast.error("Please submit your API key first");
       return;
@@ -43,118 +43,43 @@ const Index = () => {
     setIsLoading(true);
     setIsSubmitted(true);
     
-    // Simulate API calls with timeouts for demo purposes
-    // In a real app, these would be actual API calls to your Python backend
-    
-    setTimeout(() => {
-      setTherapistContent(`
-## I hear you and I'm here for you
-
-I can see you're going through a really tough time right now. Breakups can shake us to our core, and those feelings of heartache and confusion are completely valid. Many of us have been exactly where you are - wondering what went wrong and how to move forward.
-
-Remember that healing isn't linear, and it's okay to have good days and bad days. What you're experiencing - the hurt, the questions, maybe even some anger - is all part of the process.
-
-When I went through my significant breakup, I found that allowing myself to feel everything without judgment helped tremendously. Don't rush yourself or set timelines for when you "should" be over this.
-
-You have incredible strength within you, even if it doesn't feel like it right now. Each day that passes is building your resilience, and you'll eventually find yourself smiling again without it feeling forced.
-      `);
-    }, 2000);
-    
-    setTimeout(() => {
-      setClosureContent(`
-## Unsent Letter Template
-
-### Dear [Their Name],
-
-There's so much I never got to say to you, and maybe it's better this way. Our relationship changed me in ways I'm still discovering. I want you to know that despite how things ended, you taught me about my capacity to love and what I truly need in a partner.
-
-Some days I'm angry about how things unfolded, other days I'm grateful for the time we shared. What I know for certain is that I deserve someone who chooses me completely, and you deserve to find whatever it is you're looking for.
-
-I'm learning to release the expectations I had for us and the future I imagined. This letter isn't for you - it's for me to say goodbye to those dreams and make space for new ones.
-
-I wish you well on your journey, as I begin mine.
-
-### Closure Ritual
-Tonight, read this letter aloud, then safely burn it or tear it up. As you watch it disappear, visualize releasing your attachment to the relationship.
-      `);
-    }, 3500);
-    
-    setTimeout(() => {
-      setRoutineContent(`
-## Your 7-Day Recovery Plan
-
-### Day 1: Emotional Release
-- **Morning**: 10-minute journaling about your feelings
-- **Afternoon**: Go for a walk in nature without your phone
-- **Evening**: Create a "feelings playlist" and let yourself cry if needed
-
-### Day 2: Physical Reset
-- **Morning**: 15-minute gentle yoga or stretching
-- **Afternoon**: Prepare a nourishing meal for yourself
-- **Evening**: Take a long shower or bath with calming scents
-
-### Day 3: Social Connection
-- **Morning**: Text a friend you trust about how you're feeling
-- **Afternoon**: Meet that friend for coffee or a walk
-- **Evening**: Join an online community related to a hobby you enjoy
-
-### Day 4: Nostalgia Detox
-- **Morning**: Move photos of your ex to a hidden folder (don't delete yet)
-- **Afternoon**: Rearrange your living space or bedroom
-- **Evening**: Write a list of lessons learned from the relationship
-
-### Day 5: Joy Seeking
-- **Morning**: Listen to upbeat music while getting ready
-- **Afternoon**: Try something new that you've been curious about
-- **Evening**: Watch a comedy or feel-good movie
-
-### Day 6: Self-Discovery
-- **Morning**: List 10 qualities you love about yourself
-- **Afternoon**: Research a new skill you'd like to learn
-- **Evening**: Create a vision board for your future
-
-### Day 7: Forward Motion
-- **Morning**: Set 3 small goals for the upcoming week
-- **Afternoon**: Plan a solo date doing something you love
-- **Evening**: Write a letter to your future self about the person you're becoming
-
-### Recommended Playlist:
-1. "Good as Hell" - Lizzo
-2. "Rise Up" - Andra Day
-3. "Better in Time" - Leona Lewis
-4. "Survivor" - Destiny's Child
-5. "thank u, next" - Ariana Grande
-      `);
-    }, 4500);
-    
-    setTimeout(() => {
-      setHonestyContent(`
-## The Unfiltered Truth
-
-Let's be completely honest about your situation. Relationships end for real reasons, not mysterious ones. Based on what you've shared, here are some hard truths:
-
-### Reality Check
-1. **The relationship ended because it needed to end.** Something fundamental wasn't working, whether it was compatibility, timing, or effort levels.
-
-2. **You're idealizing what you had.** Your mind is likely focusing on the good moments while minimizing the problems that existed.
-
-3. **You cannot control their decisions.** No amount of analyzing, pleading, or changing yourself would have made them stay if they weren't fully committed.
-
-4. **Moving on is a choice.** Continuing to dwell in pain is comfortable because it keeps you connected to them, but it's preventing your healing.
-
-### Why You Need To Move Forward
-This breakup is creating space for something better aligned with who you are and what you deserve. The longer you resist accepting the end of this relationship, the longer you delay your own happiness.
-
-### Action Steps
-1. Implement a strict no-contact policy for at least 30 days
-2. Delete or archive your text history
-3. When you catch yourself romanticizing the relationship, write down three problems that existed
-4. Actively pursue one new interest that has nothing to do with your past relationship
-
-Remember: This pain is temporary. What feels unbearable now will eventually become just a chapter in your story.
-      `);
+    try {
+      const [therapistResponse, closureResponse, routineResponse, honestyResponse] = await Promise.allSettled([
+        callOpenAI(apiKey, feelings, agentPrompts.therapist),
+        callOpenAI(apiKey, feelings, agentPrompts.closure),
+        callOpenAI(apiKey, feelings, agentPrompts.routine),
+        callOpenAI(apiKey, feelings, agentPrompts.honesty)
+      ]);
+      
+      if (therapistResponse.status === 'fulfilled' && therapistResponse.value) {
+        setTherapistContent(therapistResponse.value);
+      } else {
+        setTherapistContent("I apologize, but I couldn't generate a therapeutic response at this time. Please try again later.");
+      }
+      
+      if (closureResponse.status === 'fulfilled' && closureResponse.value) {
+        setClosureContent(closureResponse.value);
+      } else {
+        setClosureContent("I apologize, but I couldn't generate a closure exercise at this time. Please try again later.");
+      }
+      
+      if (routineResponse.status === 'fulfilled' && routineResponse.value) {
+        setRoutineContent(routineResponse.value);
+      } else {
+        setRoutineContent("I apologize, but I couldn't generate a recovery routine at this time. Please try again later.");
+      }
+      
+      if (honestyResponse.status === 'fulfilled' && honestyResponse.value) {
+        setHonestyContent(honestyResponse.value);
+      } else {
+        setHonestyContent("I apologize, but I couldn't generate honest feedback at this time. Please try again later.");
+      }
+    } catch (error) {
+      toast.error("Error processing your request. Please check your API key and try again.");
+      console.error("Error fetching responses:", error);
+    } finally {
       setIsLoading(false);
-    }, 5500);
+    }
   };
 
   return (
@@ -204,7 +129,7 @@ Remember: This pain is temporary. What feels unbearable now will eventually beco
                   </DialogHeader>
                   <div className="space-y-4 py-4">
                     <p className="text-sm">
-                      The Breakup Recovery Squad uses advanced AI to provide you with a comprehensive recovery approach through four specialized agents:
+                      The Breakup Recovery Squad uses OpenAI's GPT-4o model to provide you with a comprehensive recovery approach through four specialized agents:
                     </p>
                     <ul className="list-disc pl-6 space-y-2 text-sm">
                       <li><span className="font-medium text-empathy">Therapist Agent</span>: Provides empathetic emotional support and validation</li>
@@ -216,7 +141,7 @@ Remember: This pain is temporary. What feels unbearable now will eventually beco
                       Simply share your feelings, upload any relevant chat screenshots if you wish, and our AI agents will analyze your situation to provide personalized guidance.
                     </p>
                     <p className="text-sm font-medium">
-                      Your data is private and processed securely through your own API key.
+                      Your data is private and processed securely through your own OpenAI API key.
                     </p>
                   </div>
                 </DialogContent>
