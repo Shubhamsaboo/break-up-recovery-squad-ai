@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquareText, ImagePlus, X } from "lucide-react";
+import { toast } from "sonner";
 
 interface UserInputFormProps {
   onSubmit: (feelings: string, images: File[]) => void;
@@ -21,10 +22,16 @@ const UserInputForm = ({ onSubmit, isLoading, apiKeySubmitted }: UserInputFormPr
     if (files) {
       const newFiles = Array.from(files).filter(file => {
         const isImage = file.type.startsWith('image/');
+        if (!isImage) {
+          toast.error(`${file.name} is not an image file.`);
+        }
         return isImage;
       });
       
-      setImages(prev => [...prev, ...newFiles]);
+      if (newFiles.length > 0) {
+        console.log("Images added:", newFiles.map(f => f.name).join(", "));
+        setImages(prev => [...prev, ...newFiles]);
+      }
     }
   };
   
@@ -40,6 +47,11 @@ const UserInputForm = ({ onSubmit, isLoading, apiKeySubmitted }: UserInputFormPr
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!feelings.trim()) {
+      toast.error("Please share your feelings before submitting");
+      return;
+    }
+    console.log(`Submitting form with ${images.length} images`);
     onSubmit(feelings, images);
   };
 
@@ -81,6 +93,11 @@ const UserInputForm = ({ onSubmit, isLoading, apiKeySubmitted }: UserInputFormPr
               <ImagePlus className="h-4 w-4" />
               Upload Chat Screenshots
             </Button>
+            {images.length > 0 && (
+              <div className="mt-2 text-sm text-muted-foreground">
+                {images.length} {images.length === 1 ? 'image' : 'images'} selected
+              </div>
+            )}
           </div>
           
           {images.length > 0 && (

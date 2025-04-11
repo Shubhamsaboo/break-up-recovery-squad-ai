@@ -44,10 +44,26 @@ export const callOpenAI = async (
           toast.error(`Failed to process image: ${image.name}`);
         }
       }
+      
+      console.log("Sending message with images:", images.length);
     } else {
       // If no images, just use the text content directly
       userMessage.content = userInput;
     }
+    
+    const payload = {
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: agentPrompt.content,
+        },
+        userMessage
+      ],
+      temperature: 0.7,
+    };
+    
+    console.log("Sending payload:", JSON.stringify(payload, null, 2));
     
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -55,21 +71,12 @@ export const callOpenAI = async (
         "Content-Type": "application/json",
         "Authorization": `Bearer ${cleanApiKey}`,
       },
-      body: JSON.stringify({
-        model: "gpt-4o",
-        messages: [
-          {
-            role: "system",
-            content: agentPrompt.content,
-          },
-          userMessage
-        ],
-        temperature: 0.7,
-      }),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
       const error = await response.json();
+      console.error("OpenAI API Error Response:", error);
       throw new Error(error.error?.message || "Failed to get response from OpenAI");
     }
 
