@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,27 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Custom breakup app colors
+				heartbreak: {
+					light: '#FF6B8B',
+					DEFAULT: '#FF4D6D',
+					dark: '#E63E5C'
+				},
+				healing: {
+					light: '#8BD3DD',
+					DEFAULT: '#64C1CF',
+					dark: '#4AAFBE'
+				},
+				empathy: {
+					light: '#B8A6FF',
+					DEFAULT: '#9D85FF',
+					dark: '#8A6EF4'
+				},
+				growth: {
+					light: '#87D884',
+					DEFAULT: '#68CB64',
+					dark: '#56B952'
 				}
 			},
 			borderRadius: {
@@ -84,11 +106,27 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'heart-beat': {
+					'0%, 100%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.1)' }
+				},
+				'fade-in-up': {
+					'0%': { 
+						opacity: '0',
+						transform: 'translateY(20px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateY(0)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'heart-beat': 'heart-beat 1.5s infinite ease-in-out',
+				'fade-in-up': 'fade-in-up 0.6s ease-out forwards'
 			}
 		}
 	},
