@@ -16,11 +16,14 @@ export const callOpenAI = async (
   agentPrompt: AgentPrompt
 ): Promise<string> => {
   try {
+    // Ensure the API key is properly encoded by filtering out non-ASCII characters
+    const cleanApiKey = apiKey.replace(/[^\x00-\xFF]/g, "");
+    
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+        "Authorization": `Bearer ${cleanApiKey}`,
       },
       body: JSON.stringify({
         model: "gpt-4o",
