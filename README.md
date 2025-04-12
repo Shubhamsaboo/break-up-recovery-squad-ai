@@ -1,73 +1,103 @@
-# Welcome to your Lovable project
+## 💔 Breakup Recovery Agent Team
 
-## Project info
+This is an AI-powered application designed to help users emotionally recover from breakups by providing support, guidance, and emotional outlet messages from a team of specialized AI agents. The app is built using **FastApi** and **Agno**, leveraging **Gemini 2.0 Flash (Google Vision Model)**.
 
-**URL**: https://lovable.dev/projects/3b0296f2-4fed-4f18-aa36-593e148cb059
+## Project Structure 
+.
+├── backend/        # FastAPI backend (Agno + Gemini agents)
+├── client/         # Vite + React + TypeScript frontend (Shadcn UI)
+├── .gitignore
+├── README.md
 
-## How can I edit this code?
+## How to get Started?
 
-There are several ways of editing your application.
+1. Clone the Repository:
 
-**Use Lovable**
+```bash
+git clone https://github.com/Shubhamsaboo/break-up-recovery-squad-ai
+```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/3b0296f2-4fed-4f18-aa36-593e148cb059) and start prompting.
+2. Install the concurrently dependency:
+```bash
+npm install
+```
+In the root directory
 
-Changes made via Lovable will be committed automatically to this repo.
+3. Install the required backend dependencies:
 
-**Use your preferred IDE**
+```bash
+cd backend
+pip install -r requirements.txt
+```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+4. Install the required frontend dependencies:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+```bash
+cd frontend
+npm install
+```
 
-Follow these steps:
+5. Get your Gemini API Key
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- Sign up for an [Google Ai Studio account](https://aistudio.google.com/) and obtain your API key.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+6. Run the Agent Squad
+In the project root directory
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Features
+- **Multi-Agent Team:** 
+    - **Therapist Agent:** Offers empathetic support and coping strategies.
+    - **Closure Agent:** Writes emotional messages users shouldn't send for catharsis.
+    - **Routine Planner Agent:** Suggests daily routines for emotional recovery.
+    - **Brutal Honesty Agent:** Provides direct, no-nonsense feedback on the breakup.
+- **Chat Screenshot Analysis:**
+    - Upload screenshots for chat analysis.
+- **Parallel Execution:** 
+    - Agents process inputs in coordination mode for comprehensive results.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Tech Stack
 
-**Use GitHub Codespaces**
+- **Backend:** Python using FastApi
+- **Frontend:** Vite + React + TypeScript frontend (Shadcn UI)
+- **AI Models:** Gemini 2.0 Flash (Google Vision Model)
+- **Image Processing:** PIL (for displaying screenshots)
+- **Text Extraction:** Google's Gemini Vision model to analyze chat screenshots
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Usage
 
-## What technologies are used for this project?
+1. **Enter Your Feelings:** 
+    - Describe how you're feeling in the text area.
+2. **Upload Screenshot (Optional):**
+    - Upload a chat screenshot (PNG, JPG, JPEG) for analysis.
+3. **Execute Agents:**
+    - Click **"Get Recovery Plan"** to run the multi-agent team.
+4. **View Results:**
+    - Individual agent responses are displayed.
+    - A final summary is provided by the Team Leader.
 
-This project is built with:
+## API Reference
+# Endpoint: POST /analyze/
+- Accepts user input and optional images
+- Sends it to a team of agents
+- Returns structured emotional analysis
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Agents Overview
 
-## How can I deploy this project?
+- **Therapist Agent**
+    - Provides empathetic support and coping strategies.
+    - Uses **Gemini 2.0 Flash (Google Vision Model)** and DuckDuckGo tools for insights.
+  
+- **Closure Agent**
+    - Generates unsent emotional messages for emotional release.
+    - Ensures heartfelt and authentic messages.
 
-Simply open [Lovable](https://lovable.dev/projects/3b0296f2-4fed-4f18-aa36-593e148cb059) and click on Share -> Publish.
+- **Routine Planner Agent**
+    - Creates a daily recovery routine with balanced activities.
+    - Includes self-reflection, social interaction, and healthy distractions.
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+- **Brutal Honesty Agent**
+    - Offers direct, objective feedback on the breakup.
+    - Uses factual language with no sugar-coating.
