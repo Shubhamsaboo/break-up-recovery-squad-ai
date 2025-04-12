@@ -29,7 +29,7 @@ const HelpDialog = () => {
         </DialogHeader>
         <div className="space-y-4 py-4">
           <p className="text-sm">
-            The Breakup Recovery Squad uses OpenAI's GPT-4o model to provide you with a comprehensive recovery approach through four specialized agents:
+            The Breakup Recovery Squad uses Gemini's 2.0 flash model to provide you with a comprehensive recovery approach through four specialized agents:
           </p>
           <ul className="list-disc pl-6 space-y-2 text-sm">
             <li><span className="font-medium text-empathy">Therapist Agent</span>: Provides empathetic emotional support and validation</li>
@@ -41,7 +41,7 @@ const HelpDialog = () => {
             Simply share your feelings, upload any relevant chat screenshots if you wish, and our AI agents will analyze your situation to provide personalized guidance.
           </p>
           <p className="text-sm font-medium">
-            Your data is private and processed securely through your own OpenAI API key.
+            Your data is private and processed securely through your own Gemini API key.
           </p>
         </div>
       </DialogContent>

@@ -7,15 +7,15 @@ const ApiInfoLink = () => {
   return (
     <div className="text-center">
       <p className="text-sm text-muted-foreground mb-2">
-        Don't have an OpenAI API key?
+        Don't have an Gemini API key?
       </p>
       <Button 
         variant="outline" 
         size="sm"
         className="flex items-center text-xs gap-1"
-        onClick={() => window.open("https://platform.openai.com/api-keys", "_blank")}
+        onClick={() => window.open("https://aistudio.google.com", "_blank")}
       >
-        Get OpenAI API Key
+        Get Gemini API Key
         <ExternalLink className="h-3 w-3" />
       </Button>
     </div>

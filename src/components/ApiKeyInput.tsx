@@ -32,10 +32,10 @@ const ApiKeyInput = ({ apiKey, setApiKey, apiKeySubmitted, setApiKeySubmitted }:
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <KeyRound className="h-5 w-5" />
-          OpenAI API Key
+          Gemini API Key
         </CardTitle>
         <CardDescription>
-          Enter your OpenAI API key to access the recovery agents
+          Enter your Gemini API key to access the recovery agents
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -43,7 +43,7 @@ const ApiKeyInput = ({ apiKey, setApiKey, apiKeySubmitted, setApiKeySubmitted }:
           <div className="flex space-x-2">
             <Input
               type="password"
-              placeholder="Enter your OpenAI API key"
+              placeholder="Enter your Gemini API key"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               disabled={apiKeySubmitted}
