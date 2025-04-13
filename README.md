@@ -1,13 +1,30 @@
-## 💔 Breakup Recovery Agent Team
+# 💔 Breakup Recovery Agent Team
 
-This is an AI-powered application designed to help users emotionally recover from breakups by providing support, guidance, and emotional outlet messages from a team of specialized AI agents. The app is built using **FastApi** and **Agno**, leveraging **Gemini 2.0 Flash (Google Vision Model)**.
+An AI-powered application designed to help users emotionally recover from breakups by providing support, guidance, and emotional outlet messages from a team of specialized AI agents. The app uses FastAPI, Agno, and Gemini 2.0 Flash (Google Vision Model).
 
-## Project Structure 
-.
-├── backend/        # FastAPI backend (Agno + Gemini agents)
-├── client/         # Vite + React + TypeScript frontend (Shadcn UI)
-├── .gitignore
-├── README.md
+## Features
+
+- **Multi-Agent Team:**
+  - **Therapist Agent**: Offers empathetic support and coping strategies
+  - **Closure Agent**: Writes emotional messages users shouldn’t send (for catharsis)
+  - **Routine Planner Agent**: Suggests daily routines for emotional recovery
+  - **Brutal Honesty Agent**: Provides direct, no-nonsense feedback on the breakup
+- **Chat Screenshot Analysis**: Upload and analyze chat screenshots (PNG, JPG, JPEG)
+- **Parallel Execution**: All agents process inputs in coordination mode
+
+## Working Demo 
+https://github.com/user-attachments/assets/07425c59-c68b-4f3b-a4d2-a660b255206b
+
+
+
+## Tech Stack
+
+- **Backend**: FastAPI with Python
+- **Frontend**: Vite + React + TypeScript + Shadcn UI
+- **AI Models**: Gemini 2.0 Flash (Google Vision Model)
+- **Image Processing**: PIL
+- **Text Extraction**: Gemini Vision model
+
 
 ## How to get Started?
 
@@ -38,7 +55,6 @@ npm install
 ```
 
 5. Get your Gemini API Key
-
 - Sign up for an [Google Ai Studio account](https://aistudio.google.com/) and obtain your API key.
 
 6. Run the Agent Squad
@@ -46,25 +62,6 @@ In the project root directory
 ```bash
 npm run dev
 ```
-
-## Features
-- **Multi-Agent Team:** 
-    - **Therapist Agent:** Offers empathetic support and coping strategies.
-    - **Closure Agent:** Writes emotional messages users shouldn't send for catharsis.
-    - **Routine Planner Agent:** Suggests daily routines for emotional recovery.
-    - **Brutal Honesty Agent:** Provides direct, no-nonsense feedback on the breakup.
-- **Chat Screenshot Analysis:**
-    - Upload screenshots for chat analysis.
-- **Parallel Execution:** 
-    - Agents process inputs in coordination mode for comprehensive results.
-
-## Tech Stack
-
-- **Backend:** Python using FastApi
-- **Frontend:** Vite + React + TypeScript frontend (Shadcn UI)
-- **AI Models:** Gemini 2.0 Flash (Google Vision Model)
-- **Image Processing:** PIL (for displaying screenshots)
-- **Text Extraction:** Google's Gemini Vision model to analyze chat screenshots
 
 ## Usage
 
